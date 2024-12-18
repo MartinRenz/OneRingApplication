@@ -20,6 +20,6 @@ OneRingRazor é uma aplicação frontend que permite de forma visual e interativ
 
 A aplicação foi desenvolvida com **Razor Pages** e **.NET 7**, consumindo a API RESTful do OneRingAPI para exibir e gerenciar os dados dos anéis.
 
-![image](https://github.com/user-attachments/assets/b1732802-e266-4338-9260-43fae642acf3)
+![image](https://github.com/user-attachments/assets/0154bf82-a403-4598-84c7-614788f1d4fd)
 
 
