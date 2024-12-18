@@ -1,0 +1,56 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-image: url('../images/middle-earth.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin-bottom: 60px;
+}
+
+.navbar-custom {
+    background: rgb(78,42,0);
+    background: linear-gradient(0deg, rgba(78,42,0,1) 0%, rgba(31,16,0,1) 100%);
+}
+
+.navbar-custom .container {
+    display: flex;
+    justify-content: center;
+}
+
+.centered-text {
+    font-size: 2rem;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    color: #fff;
+}
+
+.footer-custom {
+    background: rgb(78,42,0);
+    background: linear-gradient(180deg, rgba(78,42,0,1) 0%, rgba(31,16,0,1) 100%);
+}
+
+.footer-text {
+    text-align: center;
+    line-height: 1.4;
+    margin: 0;
+    padding: 10px 0;
+}
