@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OneRingAPI.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace OneRingAPI.Models
 {
@@ -22,6 +23,9 @@ namespace OneRingAPI.Models
         [Required]
         [MaxLength(100)]
         public string ForjadoPor { get; set; } = string.Empty;
+
+        [Required]
+        public TipoPortador Tipo { get; set; }
 
         [Required]
         [Url]
