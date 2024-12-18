@@ -17,5 +17,10 @@ namespace OneRingAPI.Services
         {
             return await _context.Aneis.ToListAsync();
         }
+
+        public async Task<Anel?> GetByIdAsync(int id)
+        {
+            return await _context.Aneis.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
