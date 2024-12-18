@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OneRingAPI.Data;
+using OneRingAPI.Enums;
 using OneRingAPI.Models;
 using OneRingAPI.Models.DTOs;
 
@@ -44,6 +45,16 @@ namespace OneRingAPI.Services
         /// <param name="anel">Anel a ser adicionado.</param>
         public async Task<Anel> CreateAsync(Anel anel)
         {
+            if (!Enum.IsDefined(typeof(TipoPortador), anel.Tipo))
+            {
+                throw new InvalidOperationException("O tipo fornecido não é válido.");
+            }
+
+            if (!await IsRingAvailable(anel.Tipo))
+            {
+                throw new InvalidOperationException($"O limite de anéis para o tipo '{anel.Tipo}' foi atingido.");
+            }
+
             _context.Aneis.Add(anel);
 
             await _context.SaveChangesAsync();
@@ -65,6 +76,21 @@ namespace OneRingAPI.Services
                 return null;
             }
 
+            // Se o tipo está sendo alterado, verificar o limite
+            if (anel.Tipo.HasValue && anel.Tipo.Value != existingAnel.Tipo)
+            {
+                if (!Enum.IsDefined(typeof(TipoPortador), anel.Tipo))
+                {
+                    throw new InvalidOperationException("O tipo fornecido não é válido.");
+                }
+
+                if (!await IsRingAvailable(anel.Tipo.Value))
+                {
+                    throw new InvalidOperationException($"O limite de anéis para o tipo '{anel.Tipo.Value}' foi atingido.");
+                }
+                existingAnel.Tipo = anel.Tipo.Value;
+            }
+
             if (!string.IsNullOrEmpty(anel.Nome))
                 existingAnel.Nome = anel.Nome;
 
@@ -76,9 +102,6 @@ namespace OneRingAPI.Services
 
             if (!string.IsNullOrEmpty(anel.ForjadoPor))
                 existingAnel.ForjadoPor = anel.ForjadoPor;
-
-            if (anel.Tipo.HasValue)
-                existingAnel.Tipo = anel.Tipo.Value;
 
             if (!string.IsNullOrEmpty(anel.Imagem))
                 existingAnel.Imagem = anel.Imagem;
@@ -104,6 +127,25 @@ namespace OneRingAPI.Services
             _context.Aneis.Remove(anel);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        /// <summary>
+        /// Valida o limite de anéis por tipo do portador.
+        /// </summary>
+        /// <param name="tipo">Tipo do portador.</param>
+        private async Task<bool> IsRingAvailable(TipoPortador tipo)
+        {
+            int limit = tipo switch
+            {
+                TipoPortador.Elfo => 3,
+                TipoPortador.Anao => 7,
+                TipoPortador.Homem => 9,
+                TipoPortador.Sauron => 1,
+                _ => 0
+            };
+
+            int ringTypeCount = await _context.Aneis.CountAsync(a => a.Tipo == tipo);
+            return ringTypeCount < limit;
         }
     }
 }

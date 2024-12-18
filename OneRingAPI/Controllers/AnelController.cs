@@ -100,6 +100,13 @@ namespace OneRingAPI.Controllers
                 var successResponse = new DataResponse<Anel>("Anel criado com sucesso.", createdAnel);
                 return CreatedAtAction(nameof(GetById), new { id = createdAnel.Id }, successResponse);
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Regra de limite de anéis violada.");
+
+                var errorResponse = new DataResponse<object>(ex.Message, null);
+                return BadRequest(errorResponse);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro ao criar o anel.");
@@ -128,6 +135,13 @@ namespace OneRingAPI.Controllers
 
                 var successResponse = new DataResponse<Anel>("Anel atualizado com sucesso.", updatedAnel);
                 return Ok(successResponse);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Regra de limite de anéis violada.");
+
+                var errorResponse = new DataResponse<object>(ex.Message, null);
+                return BadRequest(errorResponse);
             }
             catch (Exception ex)
             {

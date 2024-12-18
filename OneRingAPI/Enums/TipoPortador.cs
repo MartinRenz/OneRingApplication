@@ -13,7 +13,7 @@
         /// <summary>
         /// Representação do tipo anão.
         /// </summary>
-        Anão = 2,
+        Anao = 2,
 
         /// <summary>
         /// Representação do tipo homem.
