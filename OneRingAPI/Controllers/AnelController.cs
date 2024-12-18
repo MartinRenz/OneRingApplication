@@ -4,6 +4,9 @@ using OneRingAPI.Services;
 
 namespace OneRingAPI.Controllers
 {
+    /// <summary>
+    /// Responsável pelas operações relacionadas aos anéis.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AnelController : ControllerBase
@@ -11,6 +14,11 @@ namespace OneRingAPI.Controllers
         private readonly AnelService _anelService;
         private readonly ILogger<AnelController> _logger;
 
+        /// <summary>
+        /// Construtor para o controlador de anéis.
+        /// </summary>
+        /// <param name="anelService">Serviço responsável pelas operações de anéis.</param>
+        /// <param name="logger">Logger para registrar erros.</param>
         public AnelController(
             AnelService anelService,
             ILogger<AnelController> logger
