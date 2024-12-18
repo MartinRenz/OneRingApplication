@@ -21,7 +21,7 @@ namespace OneRingAPI.Services
         }
 
         /// <summary>
-        /// Retorna todos os anéis registrados.
+        /// Retorna todos os anéis registrados no banco de dados.
         /// </summary>
         public async Task<List<Anel>> GetAllAsync()
         {
@@ -29,12 +29,25 @@ namespace OneRingAPI.Services
         }
 
         /// <summary>
-        /// Retorna um anel através do ID.
+        /// Retorna um anel através do ID do banco de dados.
         /// </summary>
         /// <param name="id">O ID do anel que será retornado.</param>
         public async Task<Anel?> GetByIdAsync(int id)
         {
             return await _context.Aneis.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        /// <summary>
+        /// Adiciona um novo anel ao banco de dados.
+        /// </summary>
+        /// <param name="anel">Anel a ser adicionado.</param>
+        public async Task<Anel> CreateAsync(Anel anel)
+        {
+            _context.Aneis.Add(anel);
+
+            await _context.SaveChangesAsync();
+
+            return anel;
         }
     }
 }

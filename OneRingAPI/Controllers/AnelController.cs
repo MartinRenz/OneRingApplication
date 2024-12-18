@@ -84,5 +84,28 @@ namespace OneRingAPI.Controllers
                 return StatusCode(500, errorResponse);
             }
         }
+
+        /// <summary>
+        /// Adiciona um novo anel.
+        /// </summary>
+        /// <param name="anel">Anel a ser adicionado.</param>
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] Anel anel)
+        {
+            try
+            {
+                var createdAnel = await _anelService.CreateAsync(anel);
+
+                var successResponse = new DataResponse<Anel>("Anel criado com sucesso.", createdAnel);
+                return CreatedAtAction(nameof(GetById), new { id = createdAnel.Id }, successResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao criar o anel.");
+
+                var errorResponse = new DataResponse<object>("Ocorreu um erro inesperado ao criar o anel.", null);
+                return StatusCode(500, errorResponse);
+            }
+        }
     }
 }
