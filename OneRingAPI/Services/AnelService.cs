@@ -1,6 +1,7 @@
-﻿using OneRingAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
 using OneRingAPI.Data;
-using Microsoft.EntityFrameworkCore;
+using OneRingAPI.Models;
+using OneRingAPI.Models.DTOs;
 
 namespace OneRingAPI.Services
 {
@@ -48,6 +49,43 @@ namespace OneRingAPI.Services
             await _context.SaveChangesAsync();
 
             return anel;
+        }
+
+        /// <summary>
+        /// Atualiza as informações de um anel no banco de dados.
+        /// </summary>
+        /// <param name="id">O ID do anel a ser atualizado.</param>
+        /// <param name="anel">Dados do anel a serem atualizados.</param>
+        public async Task<Anel?> UpdateAsync(int id, UpdateAnelDTO anel)
+        {
+            var existingAnel = await _context.Aneis.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingAnel == null)
+            {
+                return null;
+            }
+
+            if (!string.IsNullOrEmpty(anel.Nome))
+                existingAnel.Nome = anel.Nome;
+
+            if (!string.IsNullOrEmpty(anel.Poder))
+                existingAnel.Poder = anel.Poder;
+
+            if (!string.IsNullOrEmpty(anel.Portador))
+                existingAnel.Portador = anel.Portador;
+
+            if (!string.IsNullOrEmpty(anel.ForjadoPor))
+                existingAnel.ForjadoPor = anel.ForjadoPor;
+
+            if (anel.Tipo.HasValue)
+                existingAnel.Tipo = anel.Tipo.Value;
+
+            if (!string.IsNullOrEmpty(anel.Imagem))
+                existingAnel.Imagem = anel.Imagem;
+
+            await _context.SaveChangesAsync();
+
+            return existingAnel;
         }
 
         /// <summary>

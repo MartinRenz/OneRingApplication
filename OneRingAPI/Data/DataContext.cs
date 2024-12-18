@@ -1,5 +1,5 @@
-﻿using OneRingAPI.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using OneRingAPI.Models;
 
 namespace OneRingAPI.Data
 {

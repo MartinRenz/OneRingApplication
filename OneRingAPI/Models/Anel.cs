@@ -1,6 +1,5 @@
 ﻿using OneRingAPI.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace OneRingAPI.Models
 {
@@ -13,7 +12,6 @@ namespace OneRingAPI.Models
         /// ID único do anel.
         /// </summary>
         [Key]
-        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>

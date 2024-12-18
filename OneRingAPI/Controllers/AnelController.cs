@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OneRingAPI.Models;
+using OneRingAPI.Models.DTOs;
 using OneRingAPI.Services;
 
 namespace OneRingAPI.Controllers
@@ -109,9 +110,38 @@ namespace OneRingAPI.Controllers
         }
 
         /// <summary>
+        /// Atualiza as informações de um anel.
+        /// </summary>
+        /// <param name="id">O ID do anel a ser atualizado.</param>
+        /// <param name="anel">Dados do anel a serem atualizados.</param>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateAnelDTO anel)
+        {
+            try
+            {
+                var updatedAnel = await _anelService.UpdateAsync(id, anel);
+
+                if (updatedAnel == null)
+                {
+                    return NotFound(new DataResponse<object>("Anel não encontrado.", null));
+                }
+
+                var successResponse = new DataResponse<Anel>("Anel atualizado com sucesso.", updatedAnel);
+                return Ok(successResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar o anel.");
+
+                var errorResponse = new DataResponse<object>("Ocorreu um erro inesperado ao atualizar o anel.", null);
+                return StatusCode(500, errorResponse);
+            }
+        }
+
+        /// <summary>
         /// Deleta um anel pelo ID.
         /// </summary>
-        /// <param name="id">ID do anel a ser deletado.</param>
+        /// <param name="id">O ID do anel a ser deletado.</param>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
