@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OneRingAPI.Models;
+using OneRingAPI.Services;
 
 namespace OneRingAPI.Controllers
 {
@@ -8,20 +8,41 @@ namespace OneRingAPI.Controllers
     [ApiController]
     public class AnelController : ControllerBase
     {
+        private readonly AnelService _anelService;
+        private readonly ILogger<AnelController> _logger;
+
+        public AnelController(
+            AnelService anelService,
+            ILogger<AnelController> logger
+        )
+        {
+            _anelService = anelService;
+            _logger = logger;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var anel = new Anel
+            try
             {
-                Id = 1,
-                Nome = "Anel do Poder Supremo",
-                Poder = "Controla todos os outros anéis",
-                Portador = "Sauron",
-                ForjadoPor = "Sauron",
-                Imagem = "https://example.com/anel.png"
-            };
+                var aneis = await _anelService.GetAllAsync();
 
-            return Ok(anel);
+                if (!aneis.Any())
+                {
+                    var response = new DataResponse<List<Anel>>("Nenhum anel encontrado.", null);
+                    return NotFound(response);
+                }
+
+                var successResponse = new DataResponse<List<Anel>>("Anéis encontrados com sucesso.", aneis);
+                return Ok(successResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao processar requisição de anéis.");
+
+                var errorResponse = new DataResponse<object>("Ocorreu um erro inesperado.", null);
+                return StatusCode(500, errorResponse);
+            }
         }
     }
 }
