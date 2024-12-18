@@ -107,5 +107,34 @@ namespace OneRingAPI.Controllers
                 return StatusCode(500, errorResponse);
             }
         }
+
+        /// <summary>
+        /// Deleta um anel pelo ID.
+        /// </summary>
+        /// <param name="id">ID do anel a ser deletado.</param>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = await _anelService.DeleteAsync(id);
+
+                if (!result)
+                {
+                    var response = new DataResponse<object>("Anel não encontrado.", null);
+                    return NotFound(response);
+                }
+
+                var successResponse = new DataResponse<object>("Anel deletado com sucesso.", null);
+                return Ok(successResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao deletar o anel.");
+
+                var errorResponse = new DataResponse<object>("Ocorreu um erro inesperado ao deletar o anel.", null);
+                return StatusCode(500, errorResponse);
+            }
+        }
     }
 }

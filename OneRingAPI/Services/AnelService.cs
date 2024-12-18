@@ -49,5 +49,23 @@ namespace OneRingAPI.Services
 
             return anel;
         }
+
+        /// <summary>
+        /// Deleta um anel pelo ID no banco de dados.
+        /// </summary>
+        /// <param name="id">ID do anel a ser deletado.</param>
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var anel = await _context.Aneis.FindAsync(id);
+
+            if (anel == null)
+            {
+                return false;
+            }
+
+            _context.Aneis.Remove(anel);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
