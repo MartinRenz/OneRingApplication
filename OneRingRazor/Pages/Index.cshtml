@@ -4,6 +4,63 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
+<div class="container mt-5">
+    <h1 class="text-center titulo-aneis">Anéis do Poder</h1>
 
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th style="width: 25%;">Nome</th>
+                <th style="width: 20%;">Poder</th>
+                <th style="width: 20%;">Portador</th>
+                <th style="width: 20%;">Tipo</th>
+                <th style="width: 15%; text-align: center;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var anel in Model.Aneis)
+            {
+                <tr>
+                    <td>@anel.Nome</td>
+                    <td>@anel.Poder</td>
+                    <td>@anel.Portador</td>
+                    <td>@anel.Tipo</td>
+                    <td style="text-align: center;">
+                        <div style="display: flex; gap: 5px;">
+                            <button class="btn btn-sm btn-primary" onclick="editAnel(@anel.Id)">Editar</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteAnel(@anel.Id)">Remover</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button class="btn mt-3" style="background-color: #bd8e00; color: white;" onclick="openAddModal()">Adicionar Novo Anel</button>
+    <button class="btn mt-3" style="background-color: #007bff; color: white;" onclick="updateModal()">Atualizar Listagem</button>
+
+    <div class="modal fade" id="anelModal" tabindex="-1" aria-labelledby="anelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="anelModalLabel">Adicionar/Editar Anel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="anelForm">
+                        <input type="hidden" id="anelId">
+                        <div class="mb-3">
+                            <label for="anelNome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="anelNome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="anelPoder" class="form-label">Poder</label>
+                            <input type="text" class="form-control" id="anelPoder" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
