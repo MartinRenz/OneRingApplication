@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/a45f0d4f-d664-44e9-8951-557ee8450e4a)# OneRingApplication
+# OneRingApplication
 > "One ring to rule them all, one ring to find them, One ring to bring them all, and in the darkness bind them; In the Land of Mordor where the shadows lie."
 
 **OneRingApplication** é uma aplicação web inspirada no universo de *Senhor dos Anéis*, permitindo registrar e gerenciar anéis do poder com suas propriedades, como o nome, poder, portador e forjador.
